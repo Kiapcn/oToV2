@@ -34,4 +34,48 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    // Tests pour la console de log
+    function testLogConsole() {
+        addLog('Test de la console de log.');
+        const logs = document.getElementById('logs').children;
+        if (logs.length > 0 && logs[logs.length - 1].textContent === 'Test de la console de log.') {
+            console.log('Test de la console de log réussi.');
+        } else {
+            console.error('Test de la console de log échoué.');
+        }
+    }
+
+    testLogConsole();
+
+    // Tests pour la liste de tâches à cocher
+    function testTaskList() {
+        const taskItems = document.querySelectorAll('#task-list li');
+        if (taskItems.length === 7) { // Assurez-vous que le nombre de tâches correspond
+            console.log('Test de la liste de tâches réussi.');
+        } else {
+            console.error('Test de la liste de tâches échoué.');
+        }
+    }
+
+    testTaskList();
+
+    // Amélioration de l'intégration de la console de log
+    function enhanceLogIntegration() {
+        // Assure que la console de log capture tous les événements importants
+        document.querySelectorAll('button, input, select').forEach(element => {
+            element.addEventListener('click', function(event) {
+                addLog(`Action déclenchée : ${event.target.tagName} - ${event.target.textContent || event.target.value}`);
+            });
+        });
+    }
+
+    enhanceLogIntegration();
+
+    // Gestion des erreurs
+    window.onerror = function(message, source, lineno, colno, error) {
+        const errorMessage = `Erreur capturée : ${message} à ${source}:${lineno}:${colno}`;
+        addLog(errorMessage);
+        return true; // Prévient la propagation de l'erreur par défaut
+    };
 });
