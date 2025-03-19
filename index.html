@@ -13,69 +13,120 @@
     </header>
     
     <main>
+        <!-- Section Cursor Usage -->
+        <section id="cursor-section">
+            <h2>Utilisation Cursor</h2>
+            <div id="cursor-control-container"></div>
+        </section>
+
+        <!-- Section RunPod Control -->
+        <section id="runpod-section">
+            <h2>Contrôle RunPod</h2>
+            <div id="runpod-control-container"></div>
+        </section>
+
         <section id="project-plan">
             <h2>Plan d'Action</h2>
             <p>Ce projet suit une architecture détaillée pour le développement de la plateforme oTo.</p>
             <ul>
-                <li>🔹 Mise en place de Cursor & GitHub</li>
-                <li>🔹 Développement de la base HTML/CSS/JS</li>
-                <li>🔹 Intégration de la Console de Log</li>
-                <li>🔹 Sécurisation de RunPod</li>
-                <li>🔹 Automatisation des mises à jour</li>
-                <li>🔹 Intégration de l'IA et des tokens</li>
+                <li>✅ Mise en place de Cursor & GitHub</li>
+                <li>✅ Développement de la base HTML/CSS/JS</li>
+                <li>✅ Intégration de la Console de Log</li>
+                <li>🔄 Sécurisation de RunPod</li>
+                <li>⏳ Automatisation des mises à jour</li>
+                <li>⏳ Intégration de l'IA et des tokens</li>
             </ul>
         </section>
         
-        <section id="log-console">
-            <h2>Console de Log</h2>
-            <div id="console-output"></div>
-        </section>
-
         <!-- Console de log interactive -->
-        <div id="log-console">
-            <h3>Console de Logs</h3>
-            <div id="logs" style="height:200px; overflow:auto; background:#f0f0f0; padding:10px; border:1px solid #ccc;"></div>
-        </div>
+        <section id="log-console">
+            <h2>Console de Logs</h2>
+            <div id="logs" style="height:200px; overflow:auto; background:#f0f0f0; padding:10px; border:1px solid #ccc; margin-top: 10px;"></div>
+        </section>
 
         <!-- Liste de tâches à cocher avec détails -->
         <div id="task-list">
             <h3>Liste des Tâches</h3>
             <ul>
                 <li>
-                    <input type="checkbox" checked> Initialiser le projet
+                    <input type="checkbox" checked> Configuration Initiale
                     <div style="margin-left: 20px; display: none;">
                         <ul>
-                            <li>Configuration initiale du projet</li>
-                            <li>Création des fichiers de base</li>
+                            <li>✅ Configuration du projet Git</li>
+                            <li>✅ Mise en place de la structure de base</li>
+                            <li>✅ Configuration de l'environnement</li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <input type="checkbox" checked> Développer les composants
+                    <input type="checkbox" checked> Console de Log
                     <div style="margin-left: 20px; display: none;">
                         <ul>
-                            <li>Création de la console de log</li>
-                            <li>Création de la liste de tâches</li>
+                            <li>✅ Interface de la console</li>
+                            <li>✅ Système de logging en temps réel</li>
+                            <li>✅ Tests de la console</li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <input type="checkbox"> Tester les fonctionnalités
+                    <input type="checkbox" checked> Liste de Tâches
                     <div style="margin-left: 20px; display: none;">
                         <ul>
-                            <li>Tests de la console de log</li>
-                            <li>Tests de la liste de tâches</li>
+                            <li>✅ Système de checkbox</li>
+                            <li>✅ Détails masquables</li>
+                            <li>✅ Tests de fonctionnement</li>
                         </ul>
                     </div>
                 </li>
-                <li><input type="checkbox"> Intégrer la console de log</li>
-                <li><input type="checkbox"> Ajouter la gestion des erreurs</li>
-                <li><input type="checkbox"> Optimiser le site pour la production</li>
-                <li><input type="checkbox"> Déployer le site</li>
+                <li>
+                    <input type="checkbox"> Intégration RunPod
+                    <div style="margin-left: 20px; display: none;">
+                        <ul>
+                            <li>✅ Interface de contrôle</li>
+                            <li>✅ Suivi des coûts</li>
+                            <li>⏳ API RunPod</li>
+                            <li>⏳ Tests d'intégration</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <input type="checkbox"> Automatisation
+                    <div style="margin-left: 20px; display: none;">
+                        <ul>
+                            <li>⏳ CI/CD Pipeline</li>
+                            <li>⏳ Tests automatisés</li>
+                            <li>⏳ Déploiement automatique</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <input type="checkbox"> Intégration IA
+                    <div style="margin-left: 20px; display: none;">
+                        <ul>
+                            <li>⏳ Configuration des modèles</li>
+                            <li>⏳ Système de tokens</li>
+                            <li>⏳ Tests des modèles</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <input type="checkbox"> Documentation
+                    <div style="margin-left: 20px; display: none;">
+                        <ul>
+                            <li>✅ README de base</li>
+                            <li>🔄 Documentation technique</li>
+                            <li>⏳ Guide d'utilisation</li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
     </main>
     
+    <!-- Chargement des scripts dans l'ordre -->
+    <script src="config/runpod-config.js"></script>
+    <script src="components/RunPodControl.js"></script>
+    <script src="components/CursorUsageControl.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

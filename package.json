@@ -1,20 +1,14 @@
 {
-  "name": "otov2",
+  "name": "otov2-proxy",
   "version": "1.0.0",
-  "description": "oToV2 - Plateforme d'IA",
-  "main": "index.js",
+  "description": "Proxy pour RunPod API",
+  "main": "proxy.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node proxy.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kiapcn/oToV2.git"
-  },
-  "author": "kiapchn",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "dotenv": "^16.0.3"
+    "cors": "^2.8.5",
+    "http-proxy-middleware": "^2.0.6"
   }
 } 

@@ -1,26 +1,85 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("oToV2 Base Project Loaded");
 
-    function logMessage(message) {
-        const consoleOutput = document.getElementById("console-output");
-        const newMessage = document.createElement("p");
-        newMessage.textContent = message;
-        consoleOutput.appendChild(newMessage);
-    }
-
-    logMessage("Bienvenue sur oToV2 - Console de log active.");
-
     // Fonction pour ajouter un log à la console interactive
-    function addLog(message) {
+    window.addLog = function(message, type = 'info') {
         const logContainer = document.getElementById('logs');
-        const logEntry = document.createElement('div');
-        logEntry.textContent = message;
-        logContainer.appendChild(logEntry);
-        logContainer.scrollTop = logContainer.scrollHeight;
+        if (logContainer) {
+            const logEntry = document.createElement('div');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            // Définir la classe CSS selon le type de log
+            logEntry.className = `log-entry log-${type}`;
+            
+            // Formater le message selon le type
+            let icon = '📝';
+            switch(type) {
+                case 'error':
+                    icon = '❌';
+                    break;
+                case 'warning':
+                    icon = '⚠️';
+                    break;
+                case 'success':
+                    icon = '✅';
+                    break;
+                case 'info':
+                default:
+                    icon = 'ℹ️';
+            }
+            
+            // Si le message est une erreur, afficher plus de détails
+            if (type === 'error' && message instanceof Error) {
+                logEntry.innerHTML = `
+                    <span class="log-time">[${timestamp}]</span>
+                    <span class="log-icon">${icon}</span>
+                    <span class="log-message">
+                        <strong>Erreur:</strong> ${message.message}<br>
+                        <details>
+                            <summary>Détails de l'erreur</summary>
+                            <pre>${message.stack}</pre>
+                        </details>
+                    </span>
+                `;
+            } else {
+                logEntry.innerHTML = `
+                    <span class="log-time">[${timestamp}]</span>
+                    <span class="log-icon">${icon}</span>
+                    <span class="log-message">${message}</span>
+                `;
+            }
+            
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        // Aussi logger dans la console du navigateur
+        switch(type) {
+            case 'error':
+                console.error(message);
+                break;
+            case 'warning':
+                console.warn(message);
+                break;
+            default:
+                console.log(message);
+        }
+    };
+
+    // Initialisation du contrôle RunPod
+    try {
+        const runpodControl = new RunPodControl('runpod-control-container');
+        window.addLog("RunPod Control initialisé", 'info');
+    } catch (error) {
+        window.addLog(error, 'error');
     }
 
-    // Exemple d'utilisation
-    addLog('Projet initialisé.');
+    // Initialisation du contrôle Cursor
+    try {
+        const cursorControl = new CursorUsageControl('cursor-control-container');
+        window.addLog("Cursor Usage Control initialisé", 'success');
+    } catch (error) {
+        window.addLog(error, 'error');
+    }
 
     // Gestion des tâches à cocher
     const checkboxes = document.querySelectorAll('#task-list input[type="checkbox"]');
@@ -28,54 +87,58 @@ document.addEventListener("DOMContentLoaded", function () {
         checkbox.addEventListener('change', () => {
             const task = checkbox.parentElement.textContent.trim();
             if (checkbox.checked) {
-                addLog(`Tâche terminée : ${task}`);
+                window.addLog(`Tâche terminée : ${task}`);
             } else {
-                addLog(`Tâche décochée : ${task}`);
+                window.addLog(`Tâche décochée : ${task}`);
             }
         });
+
+        // Ajouter le clic sur la tâche pour afficher/masquer les détails
+        const taskItem = checkbox.parentElement;
+        taskItem.style.cursor = 'pointer';
+        const details = taskItem.querySelector('div');
+        if (details) {
+            taskItem.addEventListener('click', (e) => {
+                if (e.target !== checkbox) {
+                    details.style.display = details.style.display === 'none' ? 'block' : 'none';
+                }
+            });
+        }
     });
 
     // Tests pour la console de log
     function testLogConsole() {
-        addLog('Test de la console de log.');
+        window.addLog('Test de la console de log.', 'info');
         const logs = document.getElementById('logs').children;
-        if (logs.length > 0 && logs[logs.length - 1].textContent === 'Test de la console de log.') {
+        if (logs.length > 0) {
             console.log('Test de la console de log réussi.');
+            window.addLog('Test de la console de log réussi.', 'success');
         } else {
             console.error('Test de la console de log échoué.');
+            window.addLog('Test de la console de log échoué.', 'error');
         }
     }
-
-    testLogConsole();
 
     // Tests pour la liste de tâches à cocher
     function testTaskList() {
         const taskItems = document.querySelectorAll('#task-list li');
-        if (taskItems.length === 7) { // Assurez-vous que le nombre de tâches correspond
-            console.log('Test de la liste de tâches réussi.');
+        if (taskItems.length === 7) {
+            window.addLog('Test de la liste de tâches réussi.', 'success');
         } else {
-            console.error('Test de la liste de tâches échoué.');
+            window.addLog('Test de la liste de tâches échoué.', 'error');
         }
     }
 
-    testTaskList();
+    // Exécution des tests
+    setTimeout(() => {
+        testLogConsole();
+        testTaskList();
+    }, 1000);
 
-    // Amélioration de l'intégration de la console de log
-    function enhanceLogIntegration() {
-        // Assure que la console de log capture tous les événements importants
-        document.querySelectorAll('button, input, select').forEach(element => {
-            element.addEventListener('click', function(event) {
-                addLog(`Action déclenchée : ${event.target.tagName} - ${event.target.textContent || event.target.value}`);
-            });
-        });
-    }
-
-    enhanceLogIntegration();
-
-    // Gestion des erreurs
+    // Gestion des erreurs globale
     window.onerror = function(message, source, lineno, colno, error) {
         const errorMessage = `Erreur capturée : ${message} à ${source}:${lineno}:${colno}`;
-        addLog(errorMessage);
+        window.addLog(errorMessage, 'error');
         return true; // Prévient la propagation de l'erreur par défaut
     };
 });
